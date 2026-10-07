@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const font = Vazirmatn({
   subsets: ["arabic", "latin"],
@@ -10,9 +8,9 @@ const font = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title:{
-    default:'چیکو',
-    template:"%s | چیکو"
+  title: {
+    default: "چیکو",
+    template: "%s | چیکو",
   },
   description: "طراحی، تولید و اجرای محصولات چیکو و دکوراسیون داخلی",
 };
@@ -25,9 +23,7 @@ export default function RootLayout({
       <body
         className={`${font.className} bg-stone-50 text-stone-900 antialiased`}
       >
-        <Navbar/>
         {children}
-        <Footer/>
       </body>
     </html>
   );
