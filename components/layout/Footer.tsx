@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CurrentYear from "./CurrentYear";
 import {
   MapPin,
   Phone,
@@ -49,6 +50,7 @@ const quickLinks = [
 ];
 
 export default function Footer() {
+  const newLocal = "mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between";
   return (
     <footer className="bg-stone-950 text-white">
 
@@ -213,10 +215,10 @@ export default function Footer() {
 
       {/* Bottom */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className={newLocal}>
 
           <p>
-            © {new Date().getFullYear()} MDF Factory. تمامی حقوق محفوظ است.
+            © <CurrentYear /> چیکو ام دی اف. تمامی حقوق محفوظ است.
           </p>
 
           <div className="flex gap-5">

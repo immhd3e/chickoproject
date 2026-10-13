@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
+
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+// import MiniCart from "@/components/cart/MiniCart";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { CartProvider } from "@/components/cart/CartProvider";
 
 const font = Vazirmatn({
   subsets: ["arabic", "latin"],
@@ -10,11 +14,8 @@ const font = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title:{
-    default:'چیکو',
-    template:"%s | چیکو"
-  },
-  description: "طراحی، تولید و اجرای محصولات چیکو و دکوراسیون داخلی",
+  title: { default: "MDF Factory", template: "%s | MDF Factory" },
+  description: "طراحی، تولید و اجرای محصولات MDF و دکوراسیون داخلی",
 };
 
 export default function RootLayout({
@@ -22,12 +23,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body
-        className={`${font.className} bg-stone-50 text-stone-900 antialiased`}
-      >
-        <Navbar/>
-        {children}
-        <Footer/>
+      <body className={`${font.className} bg-stone-50 text-stone-900 antialiased`}>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            {/* <MiniCart /> */}
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
