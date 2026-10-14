@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 
 import LoginForm from "@/components/auth/LoginForm";
 
+export const instant = false;
+
 export const metadata: Metadata = { title: "ورود / ثبت‌نام" };
 
 type Props = { searchParams: Promise<{ next?: string; tab?: string }> };
 
 export default async function LoginPage({ searchParams }: Props) {
   const { next, tab } = await searchParams;
+
+  // فقط مسیرهای داخل سایت
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
 
   return (
@@ -18,9 +22,14 @@ export default async function LoginPage({ searchParams }: Props) {
 
       <div className="hidden flex-col justify-between bg-stone-950 p-10 text-white lg:flex">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-stone-950">M</div>
-          <div className="text-xl font-bold">MDF<span className="text-amber-500">Factory</span></div>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-stone-950">
+            M
+          </div>
+          <div className="text-xl font-bold">
+            MDF<span className="text-amber-500">Factory</span>
+          </div>
         </div>
+
         <div>
           <p className="text-xs font-medium tracking-widest text-amber-500">WOOD &amp; INTERIOR</p>
           <h2 className="mt-3 text-3xl font-bold leading-[1.6]">حساب شما، همراه هر سفارش</h2>
@@ -30,6 +39,7 @@ export default async function LoginPage({ searchParams }: Props) {
             <li>سبد خرید همیشه همراه شماست</li>
           </ul>
         </div>
+
         <p className="text-xs text-stone-500">ورود به معنای پذیرش قوانین و حریم خصوصی است.</p>
       </div>
     </section>

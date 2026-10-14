@@ -4,7 +4,7 @@ import "./globals.css";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-// import MiniCart from "@/components/cart/MiniCart";
+import MiniCart from "@/components/cart/MiniCart";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { CartProvider } from "@/components/cart/CartProvider";
 
@@ -29,7 +29,7 @@ export default function RootLayout({
             <Navbar />
             <main>{children}</main>
             <Footer />
-            {/* <MiniCart /> */}
+            <MiniCart />
           </CartProvider>
         </AuthProvider>
       </body>

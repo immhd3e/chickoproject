@@ -91,7 +91,7 @@ export default function CategoryMenu() {
                 {categories.map((category) => (
                   <div key={category.slug} className="group flex gap-4">
                     <Link
-                      href={`/products?category=${category.slug}`}
+                      href={`/category/${category.slug}`}
                       onClick={close}
                       className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-stone-100"
                     >
@@ -106,7 +106,7 @@ export default function CategoryMenu() {
 
                     <div>
                       <Link
-                        href={`/products?category=${category.slug}`}
+                        href={`/category/${category.slug}`}
                         onClick={close}
                         className="font-bold text-stone-900 transition hover:text-amber-700"
                       >
@@ -121,7 +121,7 @@ export default function CategoryMenu() {
                         {category.items.map((item) => (
                           <Link
                             key={item.slug}
-                            href={`/products?category=${category.slug}&type=${item.slug}`}
+                            href={`/category/${category.slug}?type=${item.slug}`}
                             onClick={close}
                             className="text-xs text-stone-500 transition hover:text-amber-700"
                           >

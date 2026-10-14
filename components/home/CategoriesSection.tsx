@@ -40,7 +40,7 @@ export default function CategoriesSection() {
           {categories.map((category) => (
             <Link
               key={category.slug}
-              href={`/products?category=${category.slug}`}
+              href={`/category/${category.slug}`}
               className="group overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               {/* Image */}

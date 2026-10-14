@@ -1,6 +1,7 @@
 export const toFa = (n: number) => n.toLocaleString("fa-IR");
 
-export const formatPrice = (n: number) => `${toFa(n)} تومان`;
+export const formatPrice = (n?: number) =>
+  typeof n === "number" ? `${toFa(n)} تومان` : "قیمت: تماس بگیرید";
 
 export const normalizeDigits = (v: string) =>
   v

@@ -1,77 +1,103 @@
-
-import type { Product } from "@/types/product";
+export type Product = {
+  id: number;
+  slug: string;
+  title: string;
+  price: number; // تومان
+  image: string;
+  images?: string[];
+  category: string; // slug دسته
+  type: string; // slug مدل
+  description: string;
+  features: string[];
+};
 
 export const products: Product[] = [
   {
-    id: "1",
-    name: "کمد دیواری مدرن",
-    slug: "modern-wall-wardrobe",
-    description:
-      "کمد دیواری مدرن با طراحی مینیمال و قابلیت اجرای سفارشی",
-    image: "/images/products/wardrobe-1.jpg",
-    category: "wardrobes",
-    material: "MDF",
-    isFeatured: true,
+    id: 1,
+    slug: "built-in-wardrobe-2door",
+    title: "کمد دیواری دو درب",
+    price: 18500000,
+    image: "/images/categories/wardrobe.jpg",
+    category: "wardrobe",
+    type: "built-in-wardrobe",
+    description: "کمد دیواری دو درب با فضای داخلی قابل‌تنظیم برای آویز، کشو و طبقه. ابعاد و رنگ را مطابق دیوار خانهٔ شما می‌سازیم.",
+    features: ["ساخت با ابعاد دلخواه", "ریل و لولای بی‌صدا", "رنگ و روکش به انتخاب شما"],
   },
-
   {
-    id: "2",
-    name: "سرویس خواب کودک",
-    slug: "kids-bedroom-set",
-    description:
-      "سرویس خواب کودک با طراحی کاربردی و قابل شخصی‌سازی",
-    image: "/images/products/kids-room-1.jpg",
+    id: 2,
+    slug: "sliding-wardrobe-3door",
+    title: "کمد ریلی سه درب",
+    price: 22000000,
+    image: "/images/categories/wardrobe.jpg",
+    category: "wardrobe",
+    type: "sliding-wardrobe",
+    description: "کمد ریلی سه درب با درهای کشویی که فضای جلوی کمد را اشغال نمی‌کنند؛ مناسب اتاق‌های کوچک.",
+    features: ["درهای کشویی صرفه‌جو در فضا", "ریل مقاوم و بی‌صدا", "داخل کمد قابل طراحی"],
+  },
+  {
+    id: 3,
+    slug: "bedroom-wardrobe",
+    title: "کمد اتاق خواب",
+    price: 16800000,
+    image: "/images/categories/wardrobe.jpg",
+    category: "wardrobe",
+    type: "bedroom-wardrobe",
+    description: "کمد اتاق خواب با طراحی مدرن و تقسیم‌بندی داخلی کامل برای لباس، کیف و اکسسوری.",
+    features: ["طبقه، آویز و کشو", "امکان آینه‌کاری", "نصب توسط تیم کارخانه"],
+  },
+  {
+    id: 4,
+    slug: "baby-set-full",
+    title: "سرویس کامل نوزاد",
+    price: 24000000,
+    image: "/images/categories/kids-room.jpg",
     category: "kids-room",
-    material: "MDF",
-    isFeatured: true,
+    type: "baby-set",
+    description: "سرویس کامل نوزاد شامل تخت، کمد و دراور با لبه‌های گرد و رنگ‌های ملایم.",
+    features: ["لبه‌های گرد", "رنگ‌های ملایم", "هماهنگ با فضای اتاق"],
   },
-
   {
-    id: "3",
-    name: "میز تحریر مدرن",
-    slug: "modern-study-desk",
-    description:
-      "میز تحریر مدرن مناسب اتاق کودک، نوجوان و فضای کاری",
-    image: "/images/products/study-desk-1.jpg",
-    category: "tables-bookcases",
-    material: "MDF",
-    isFeatured: false,
+    id: 5,
+    slug: "kids-bed",
+    title: "تخت کودک",
+    price: 9800000,
+    image: "/images/categories/kids-room.jpg",
+    category: "kids-room",
+    type: "kids-bed",
+    description: "تخت کودک با ساختار محکم و طراحی ساده که با اتاق کودک هماهنگ می‌شود.",
+    features: ["بدنهٔ محکم", "ابعاد سفارشی", "رنگ به انتخاب شما"],
   },
-
   {
-    id: "4",
-    name: "تخت خواب مینیمال",
-    slug: "minimal-bed",
-    description:
-      "تخت خواب مینیمال با قابلیت تولید در ابعاد مختلف",
-    image: "/images/products/bed-1.jpg",
-    category: "bedroom",
-    material: "MDF",
-    isFeatured: true,
+    id: 6,
+    slug: "modern-bed",
+    title: "تخت خواب مدرن",
+    price: 32000000,
+    image: "/images/categories/bedroom-set.jpg",
+    category: "bedroom-set",
+    type: "bed",
+    description: "تخت خواب مدرن با سرتختی ساده و بدنهٔ مقاوم؛ قابل ساخت در اندازه‌های مختلف.",
+    features: ["اندازه‌های یک‌نفره تا دونفره", "سرتختی طراحی‌شده", "هماهنگ با سرویس خواب"],
   },
-
   {
-    id: "5",
-    name: "کتابخانه دیواری",
-    slug: "wall-bookcase",
-    description:
-      "کتابخانه دیواری مدرن مناسب خانه و فضای اداری",
-    image: "/images/products/bookcase-1.jpg",
-    category: "tables-bookcases",
-    material: "MDF",
-    isFeatured: false,
+    id: 7,
+    slug: "dresser",
+    title: "دراور",
+    price: 7200000,
+    image: "/images/categories/bedroom-set.jpg",
+    category: "bedroom-set",
+    type: "dresser",
+    description: "دراور با کشوهای روان برای نگهداری لباس و وسایل شخصی، هماهنگ با تخت و پاتختی.",
+    features: ["کشوهای روان", "جای کافی برای لباس", "هماهنگ با سرویس خواب"],
   },
-
   {
-    id: "6",
-    name: "کمد ریلی",
-    slug: "sliding-wardrobe",
-    description:
-      "کمد ریلی با طراحی مدرن و استفاده بهینه از فضای اتاق",
-    image: "/images/products/wardrobe-2.jpg",
-    category: "wardrobes",
-    material: "MDF",
-    isFeatured: true,
+    id: 8,
+    slug: "tv-stand",
+    title: "میز تلویزیون",
+    price: 6500000,
+    image: "/images/categories/desk-bookcase.jpg",
+    category: "desk-bookcase",
+    type: "tv-stand",
+    description: "میز تلویزیون با فضای کافی برای دستگاه‌ها و وسایل، با طراحی ساده و مدرن.",
+    features: ["جای دستگاه‌ها و کابل‌ها", "ابعاد سفارشی", "طراحی مدرن"],
   },
 ];
-

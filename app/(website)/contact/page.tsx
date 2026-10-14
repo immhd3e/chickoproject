@@ -13,7 +13,7 @@ const info = [
   { icon: MapPin, label: "آدرس کارخانه", value: "آدرس کارخانه را اینجا بنویسید" },
   { icon: Clock, label: "ساعت کاری", value: "ساعت کاری را اینجا بنویسید" },
 ];
-
+export const instant = false;
 export default async function ContactPage({ searchParams }: Props) {
   const { subject } = await searchParams;
 
