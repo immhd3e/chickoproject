@@ -15,7 +15,7 @@ export default function FeaturedProducts() {
             <p className="text-sm font-semibold tracking-widest text-amber-700">FEATURED PRODUCTS</p>
             <h2 className="mt-3 text-3xl font-bold text-stone-950 sm:text-4xl">محصولات پیشنهادی</h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-500 sm:text-base">
-              تعدادی از محصولات منتخب MDF Factory با طراحی مدرن، کیفیت ساخت بالا و امکان شخصی‌سازی.
+              تعدادی از محصولات منتخب MDF چیکو با طراحی مدرن، کیفیت ساخت بالا و امکان شخصی‌سازی.
             </p>
           </div>
 

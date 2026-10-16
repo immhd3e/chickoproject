@@ -3,12 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -19,22 +14,22 @@ import "swiper/css/pagination";
 
 const slides = [
   {
-    image: "/images/home/hero-detail.jpg",
-    label: "MDF FACTORY",
+    image: "/images/home/img1.jpg",
+    label: "MDF چیکو",
     title: "طراحی برای زندگی بهتر",
   },
   {
-    image: "/images/categories/wardrobe.jpg",
+    image: "/images/categories/bed.jpg",
     label: "WARDROBE DESIGN",
     title: "کمدهای مدرن و سفارشی",
   },
   {
-    image: "/images/categories/kids-room.jpg",
+    image: "/images/categories/kiiid.jpg",
     label: "KIDS ROOM",
     title: "طراحی اتاق کودک",
   },
   {
-    image: "/images/categories/bedroom.jpg",
+    image: "/images/categories/servis.jpg",
     label: "BEDROOM DESIGN",
     title: "سرویس خواب مدرن",
   },
@@ -187,26 +182,17 @@ export default function HeroSection() {
             {/* Features */}
             <div className="mt-6 grid grid-cols-1 gap-3 sm:mt-7 sm:grid-cols-3 sm:gap-4">
               <div className="flex items-center gap-2 text-xs text-stone-200 sm:text-sm">
-                <CheckCircle2
-                  size={17}
-                  className="shrink-0 text-amber-400"
-                />
+                <CheckCircle2 size={17} className="shrink-0 text-amber-400" />
                 طراحی اختصاصی
               </div>
 
               <div className="flex items-center gap-2 text-xs text-stone-200 sm:text-sm">
-                <CheckCircle2
-                  size={17}
-                  className="shrink-0 text-amber-400"
-                />
+                <CheckCircle2 size={17} className="shrink-0 text-amber-400" />
                 تولید سفارشی
               </div>
 
               <div className="flex items-center gap-2 text-xs text-stone-200 sm:text-sm">
-                <CheckCircle2
-                  size={17}
-                  className="shrink-0 text-amber-400"
-                />
+                <CheckCircle2 size={17} className="shrink-0 text-amber-400" />
                 اجرای حرفه‌ای
               </div>
             </div>
@@ -272,4 +258,3 @@ export default function HeroSection() {
     </section>
   );
 }
-

@@ -13,7 +13,7 @@ export const categories: Category[] = [
     title: "کمد و کمد دیواری",
     slug: "wardrobe",
     description: "انواع کمد دیواری، ریلی و سفارشی",
-    image: "/images/categories/wardrobe.jpg",
+    image: "/images/categories/komod.jpg",
     items: [
       { title: "کمد سفارشی", slug: "custom-wardrobe" },
       { title: "کمد ریلی", slug: "sliding-wardrobe" },
@@ -25,7 +25,7 @@ export const categories: Category[] = [
     title: "اتاق نوزاد و کودک",
     slug: "kids-room",
     description: "طراحی و اجرای اتاق نوزاد و کودک",
-    image: "/images/categories/kids-room.jpg",
+    image: "/images/categories/Artboard 1.jpg",
     items: [
       { title: "سرویس نوزاد", slug: "baby-set" },
       { title: "تخت کودک", slug: "kids-bed" },
@@ -37,7 +37,7 @@ export const categories: Category[] = [
     title: "سرویس خواب",
     slug: "bedroom-set",
     description: "سرویس خواب مدرن و سفارشی",
-    image: "/images/categories/bedroom-set.jpg",
+    image: "/images/categories/servis.jpg",
     items: [
       { title: "تخت خواب", slug: "bed" },
       { title: "دراور", slug: "dresser" },
@@ -49,7 +49,7 @@ export const categories: Category[] = [
     title: "میز و کتابخانه",
     slug: "desk-bookcase",
     description: "میز، کتابخانه و تجهیزات کاربردی",
-    image: "/images/categories/desk-bookcase.jpg",
+    image: "/images/categories/tables.jpg",
     items: [
       { title: "میز تلویزیون", slug: "tv-stand" },
       { title: "کتابخانه", slug: "bookcase" },

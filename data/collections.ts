@@ -1,10 +1,22 @@
+export type Focus = {
+  x: number; // فقط اگر بخواهید جزء، برشی از عکس کلی باشد
+  y: number;
+  zoom?: number;
+};
+
 export type Collection = {
   slug: string;
   title: string;
   category: string; // slug دسته
   image: string; // عکس کلی طرح
+  banner?: string; // عکس عریض بالای صفحه (اگر نباشد از image استفاده می‌شود)
   description: string;
   itemIds: number[]; // شناسهٔ محصولات داخل مجموعه
+  // عکس مخصوص هر جزء در همین مجموعه، مثلاً { 1: "/images/collections/x/wardrobe.jpg" }
+  // اگر نباشد، عکس خود محصول (data/products.ts) نشان داده می‌شود
+  partImages?: Record<number, string>;
+  // اختیاری: به‌جای عکس جدا، برشی از عکس کلی نشان بده
+  focus?: Record<number, Focus>;
 };
 
 export const collections: Collection[] = [
@@ -15,6 +27,11 @@ export const collections: Collection[] = [
     image: "/images/categories/wardrobe.jpg",
     description: "کمد دیواری دو درب همراه با آینه قدی و جالباسی؛ مجموعه‌ای کامل برای اتاق خواب یا ورودی.",
     itemIds: [1, 9, 10],
+    // partImages: {
+    //   1: "/images/collections/wardrobe-2door/wardrobe.jpg",
+    //   9: "/images/collections/wardrobe-2door/mirror.jpg",
+    //   10: "/images/collections/wardrobe-2door/coat-rack.jpg",
+    // },
   },
   {
     slug: "sliding-wardrobe-set",

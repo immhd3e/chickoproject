@@ -3,15 +3,15 @@ import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import ContactForm from "@/components/contact/ContactForm";
 
-export const metadata: Metadata = { title: "درخواست مشاوره" };
+export const metadata: Metadata = { title: "تماس با ما" };
 
 type Props = { searchParams: Promise<{ subject?: string }> };
 
 const info = [
-  { icon: Phone, label: "تلفن", value: "۰۲۱-۱۲۳۴۵۶۷۸", href: "tel:02112345678" },
-  { icon: MessageCircle, label: "واتساپ", value: "پیام در واتساپ", href: "https://wa.me/989120000000" },
-  { icon: MapPin, label: "آدرس کارخانه", value: "آدرس کارخانه را اینجا بنویسید" },
-  { icon: Clock, label: "ساعت کاری", value: "ساعت کاری را اینجا بنویسید" },
+  { icon: Phone, label: "تلفن", value: "09126518450", href: "tel:09126518450" },
+  { icon: MessageCircle, label: "واتساپ", value: "پیام در واتساپ", href: "https://wa.me/9891265118450" },
+  { icon: MapPin, label: "آدرس کارخانه", value: "قم ابتدای اتوبان گرمسار شهرک صنعتی  ثامن الاِمه بلوار امام رضا کوچه 28 سمت راست کارخانه ششم" },
+  { icon: Clock, label: "ساعت کاری", value: "8:00am - 00:00pm" },
 ];
 export const instant = false;
 export default async function ContactPage({ searchParams }: Props) {
@@ -19,7 +19,7 @@ export default async function ContactPage({ searchParams }: Props) {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-12">
-      <h1 className="text-3xl font-bold text-stone-900">درخواست مشاوره</h1>
+      <h1 className="text-3xl font-bold text-stone-900">تماس با ما</h1>
       <p className="mt-2 max-w-xl text-stone-500">
         فرم را پر کنید تا همکاران ما با شما تماس بگیرند. اگر عجله دارید، مستقیم تماس بگیرید یا در واتساپ پیام بدهید.
       </p>

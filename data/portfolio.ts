@@ -3,7 +3,7 @@ export const portfolioItems = [
     id: "1",
     title: "کمد دیواری مدرن",
     category: "کمد و کمد دیواری",
-    image: "/images/home/hero.jpg",
+    image: "/images/home/img1.jpg",
     description:
       "طراحی و اجرای کمد دیواری مدرن با استفاده بهینه از فضای اتاق.",
   },
@@ -11,7 +11,7 @@ export const portfolioItems = [
     id: "2",
     title: "اتاق کودک",
     category: "اتاق کودک",
-    image: "/images/categories/kids-room.jpg",
+    image: "/images/categories/kids-room1.jpg",
     description:
       "طراحی یک فضای کاربردی و هماهنگ برای اتاق کودک و نوجوان.",
   },
@@ -19,7 +19,7 @@ export const portfolioItems = [
     id: "3",
     title: "سرویس خواب مدرن",
     category: "سرویس خواب",
-    image: "/images/categories/bedroom.jpg",
+    image: "/images/categories/4.jpg",
     description:
       "طراحی و تولید سرویس خواب با سبک مینیمال و قابلیت سفارشی‌سازی.",
   },
@@ -27,7 +27,7 @@ export const portfolioItems = [
     id: "4",
     title: "میز و کتابخانه",
     category: "میز و کتابخانه",
-    image: "/images/categories/tables.jpg",
+    image: "/images/categories/jhjh.jpg",
     description:
       "اجرای میز کار و کتابخانه متناسب با ابعاد فضای داخلی.",
   },

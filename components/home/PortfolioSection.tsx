@@ -31,7 +31,7 @@ export default function PortfolioSection() {
             </h2>
 
             <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-500 sm:text-base">
-              بخشی از پروژه‌های طراحی و اجرای MDF Factory
+              بخشی از پروژه‌های طراحی و اجرای MDF چیکو
               در فضاهای مسکونی و کاری.
             </p>
           </div>

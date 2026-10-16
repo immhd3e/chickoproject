@@ -24,7 +24,7 @@ export default function MainHeader({ onMenuClick }: MainHeaderProps) {
 
           <div className="hidden sm:block">
             <div className="text-xl font-bold tracking-tight text-stone-950">
-              MDF<span className="text-amber-700">Factory</span>
+              MDF<span className="text-amber-700">چیکو</span>
             </div>
             <p className="text-[10px] tracking-widest text-stone-500">WOOD & INTERIOR</p>
           </div>

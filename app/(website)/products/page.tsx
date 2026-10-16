@@ -18,9 +18,9 @@ export default async function ProductsPage({ searchParams }: Props) {
   const { category, type, q } = await searchParams;
 
   const currentCat = categories.find((c) => c.slug === category);
-  const types = currentCat?.items ?? [];
-  const activeType = types.find((t) => t.slug === type);
+  const activeType = currentCat?.items.find((t) => t.slug === type);
 
+  // فیلتر مدل بی‌صدا کار می‌کند (دکمه‌ای برایش نشان داده نمی‌شود)
   const list = collections.filter((col) => {
     if (category && col.category !== category) return false;
 
@@ -38,21 +38,16 @@ export default async function ProductsPage({ searchParams }: Props) {
         : "border-stone-300 bg-white text-stone-700 hover:border-amber-600 hover:text-amber-700"
     }`;
 
-  const typeChip = (active: boolean) =>
-    `rounded-full border px-3.5 py-1.5 text-xs transition ${
-      active
-        ? "border-amber-600 bg-amber-600 text-white"
-        : "border-stone-300 bg-white text-stone-600 hover:border-amber-600 hover:text-amber-700"
-    }`;
-
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">
       <h1 className="text-3xl font-bold text-stone-900">{currentCat ? currentCat.title : "همهٔ محصولات"}</h1>
       <p className="mt-2 max-w-2xl text-sm leading-7 text-stone-500">
-        {currentCat ? currentCat.description : "مجموعه‌های آماده‌ی MDF Factory را ببینید و هر کدام را مفصل بررسی کنید."}
+        {currentCat
+          ? currentCat.description
+          : "مجموعه‌های آماده‌ی MDF چیکو را ببینید و هر کدام را مفصل بررسی کنید."}
       </p>
 
-      {/* دسته‌ها */}
+      {/* فقط دسته‌ها */}
       <div className="mt-6 flex flex-wrap gap-2">
         <Link href="/products" className={chip(!category)} aria-current={!category ? "true" : undefined}>
           همه
@@ -68,29 +63,6 @@ export default async function ProductsPage({ searchParams }: Props) {
           </Link>
         ))}
       </div>
-
-      {/* مدل‌های دستهٔ انتخاب‌شده */}
-      {currentCat && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Link
-            href={`/products?category=${currentCat.slug}`}
-            className={typeChip(!activeType)}
-            aria-current={!activeType ? "true" : undefined}
-          >
-            همهٔ مدل‌ها
-          </Link>
-          {types.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/products?category=${currentCat.slug}&type=${t.slug}`}
-              className={typeChip(activeType?.slug === t.slug)}
-              aria-current={activeType?.slug === t.slug ? "true" : undefined}
-            >
-              {t.title}
-            </Link>
-          ))}
-        </div>
-      )}
 
       {/* مجموعه‌ها (بدون قیمت) */}
       {list.length ? (
