@@ -1,0 +1,59 @@
+export type Collection = {
+  slug: string;
+  title: string;
+  category: string; // slug دسته
+  image: string; // عکس کلی طرح
+  description: string;
+  itemIds: number[]; // شناسهٔ محصولات داخل مجموعه
+};
+
+export const collections: Collection[] = [
+  {
+    slug: "wardrobe-2door-set",
+    title: "ست کمد دیواری دو درب",
+    category: "wardrobe",
+    image: "/images/categories/wardrobe.jpg",
+    description: "کمد دیواری دو درب همراه با آینه قدی و جالباسی؛ مجموعه‌ای کامل برای اتاق خواب یا ورودی.",
+    itemIds: [1, 9, 10],
+  },
+  {
+    slug: "sliding-wardrobe-set",
+    title: "ست کمد ریلی سه درب",
+    category: "wardrobe",
+    image: "/images/categories/wardrobe.jpg",
+    description: "کمد ریلی سه درب به‌همراه جاکفشی هماهنگ، مناسب فضاهای کوچک.",
+    itemIds: [2, 11],
+  },
+  {
+    slug: "bedroom-wardrobe-set",
+    title: "ست کمد اتاق خواب",
+    category: "wardrobe",
+    image: "/images/categories/wardrobe.jpg",
+    description: "کمد اتاق خواب با آینه قدی و جالباسی دیواری برای یک اتاق مرتب.",
+    itemIds: [3, 9, 10],
+  },
+  {
+    slug: "baby-room-set",
+    title: "اتاق نوزاد کامل",
+    category: "kids-room",
+    image: "/images/categories/kids-room.jpg",
+    description: "سرویس کامل نوزاد به‌همراه تخت کودک برای رشد بچه در یک اتاق هماهنگ.",
+    itemIds: [4, 5],
+  },
+  {
+    slug: "modern-bedroom-set",
+    title: "سرویس خواب مدرن",
+    category: "bedroom-set",
+    image: "/images/categories/bedroom-set.jpg",
+    description: "تخت خواب مدرن و دراور هماهنگ، با طراحی ساده و رنگ‌های قابل‌انتخاب.",
+    itemIds: [6, 7],
+  },
+  {
+    slug: "tv-bookcase-set",
+    title: "ست میز تلویزیون و کتابخانه",
+    category: "desk-bookcase",
+    image: "/images/categories/desk-bookcase.jpg",
+    description: "میز تلویزیون و کتابخانهٔ دیواری هماهنگ برای اتاق پذیرایی یا نشیمن.",
+    itemIds: [8, 12],
+  },
+];
