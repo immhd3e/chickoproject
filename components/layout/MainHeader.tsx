@@ -4,14 +4,22 @@ import Link from "next/link";
 import { Heart, Search, ShoppingBag, UserRound } from "lucide-react";
 
 import { useCart } from "@/components/cart/CartProvider";
+import { useFavorites } from "@/components/favorites/FavoritesProvider";
 import { toFa } from "@/lib/format";
 
 interface MainHeaderProps {
   onMenuClick: () => void;
 }
 
+const iconBtn =
+  "relative flex h-10 w-10 items-center justify-center rounded-full text-stone-700 transition hover:bg-stone-100 hover:text-amber-700";
+
+const badge =
+  "absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold text-white";
+
 export default function MainHeader({ onMenuClick }: MainHeaderProps) {
   const { count, ready, openCart } = useCart();
+  const fav = useFavorites();
 
   return (
     <div className="border-b border-stone-200 bg-white">
@@ -53,43 +61,24 @@ export default function MainHeader({ onMenuClick }: MainHeaderProps) {
             <span className="text-xl">☰</span>
           </button>
 
-          <button
-            type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-stone-700 transition hover:bg-stone-100 hover:text-amber-700 lg:hidden"
-            aria-label="جستجو"
-          >
+          <button type="button" className={`${iconBtn} lg:hidden`} aria-label="جستجو">
             <Search size={20} />
           </button>
 
-          <Link
-            href="/favorites"
-            className="hidden h-10 w-10 items-center justify-center rounded-full text-stone-700 transition hover:bg-stone-100 hover:text-amber-700 sm:flex"
-            aria-label="علاقه‌مندی‌ها"
-          >
+          <Link href="/favorites" className={iconBtn} aria-label="علاقه‌مندی‌ها">
             <Heart size={20} />
+            {fav.ready && fav.count > 0 && (
+              <span className={`${badge} bg-red-500`}>{toFa(fav.count)}</span>
+            )}
           </Link>
 
-          <Link
-            href="/login"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-stone-700 transition hover:bg-stone-100 hover:text-amber-700"
-            aria-label="حساب کاربری"
-          >
+          <Link href="/login" className={iconBtn} aria-label="حساب کاربری">
             <UserRound size={20} />
           </Link>
 
-          <button
-            type="button"
-            onClick={openCart}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-stone-700 transition hover:bg-stone-100 hover:text-amber-700"
-            aria-label="سبد خرید"
-          >
+          <button type="button" onClick={openCart} className={iconBtn} aria-label="سبد خرید">
             <ShoppingBag size={20} />
-
-            {ready && count > 0 && (
-              <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-700 px-1 text-[9px] font-bold text-white">
-                {toFa(count)}
-              </span>
-            )}
+            {ready && count > 0 && <span className={`${badge} bg-amber-700`}>{toFa(count)}</span>}
           </button>
         </div>
       </div>

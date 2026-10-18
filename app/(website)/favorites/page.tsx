@@ -1,8 +1,14 @@
-export default function Page() {
+import type { Metadata } from "next";
+
+import FavoritesView from "@/components/favorites/FavoritesView";
+
+export const metadata: Metadata = { title: "علاقه‌مندی‌ها" };
+
+export default function FavoritesPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-24">
-      <h1 className="text-2xl font-bold text-stone-900">علاقه‌مندی‌ها</h1>
-      <p className="mt-2 text-stone-500">به‌زودی...</p>
-    </div>
+    <section className="mx-auto max-w-7xl px-6 py-12">
+      <h1 className="mb-8 text-3xl font-bold text-stone-900">علاقه‌مندی‌ها</h1>
+      <FavoritesView />
+    </section>
   );
 }

@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import MiniCart from "@/components/cart/MiniCart";
+import SiteChrome from "@/components/layout/SiteChrome";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { CartProvider } from "@/components/cart/CartProvider";
+import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
 
 const font = Vazirmatn({
   subsets: ["arabic", "latin"],
@@ -26,10 +25,9 @@ export default function RootLayout({
       <body className={`${font.className} bg-stone-50 text-stone-900 antialiased`}>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-            <MiniCart />
+            <FavoritesProvider>
+              <SiteChrome>{children}</SiteChrome>
+            </FavoritesProvider>
           </CartProvider>
         </AuthProvider>
       </body>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import FavoriteButton from "@/components/favorites/FavoriteButton";
 import AddToCart from "@/components/shop/AddToCart";
 import type { Focus } from "@/data/collections";
 import type { Product } from "@/data/products";
@@ -22,29 +23,32 @@ export default function PartCard({
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-stone-100" aria-label={product.title}>
-        {focus ? (
-          <div
-            role="img"
-            aria-label={product.title}
-            className="absolute inset-0 transition duration-700 group-hover:scale-105"
-            style={{
-              backgroundImage: `url(${wholeImage})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: `${(focus.zoom ?? 2) * 100}%`,
-              backgroundPosition: `${focus.x}% ${focus.y}%`,
-            }}
-          />
-        ) : (
-          <Image
-            src={image}
-            alt={product.title}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition duration-700 group-hover:scale-105"
-          />
-        )}
-      </Link>
+      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+        <Link href={href} className="absolute inset-0" aria-label={product.title}>
+          {focus ? (
+            <div
+              role="img"
+              aria-label={product.title}
+              className="absolute inset-0 transition duration-700 group-hover:scale-105"
+              style={{
+                backgroundImage: `url(${wholeImage})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: `${(focus.zoom ?? 2) * 100}%`,
+                backgroundPosition: `${focus.x}% ${focus.y}%`,
+              }}
+            />
+          ) : (
+            <Image
+              src={image}
+              alt={product.title}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition duration-700 group-hover:scale-105"
+            />
+          )}
+        </Link>
+        <FavoriteButton productId={product.id} title={product.title} />
+      </div>
 
       <div className="flex flex-1 flex-col p-5">
         <Link href={href} className="font-bold text-stone-950 transition hover:text-amber-700">

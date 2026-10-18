@@ -1,17 +1,21 @@
 import type { ConsultationInput } from "./validators";
 
-const KEY = "mdf_consultations";
-
 export async function submitConsultation(
   data: ConsultationInput
 ): Promise<{ ok: true } | { ok: false; error: string }> {
-  await new Promise((r) => setTimeout(r, 700));
   try {
-    const list = JSON.parse(localStorage.getItem(KEY) ?? "[]");
-    list.push({ ...data, createdAt: new Date().toISOString() });
-    localStorage.setItem(KEY, JSON.stringify(list));
+    const res = await fetch("/api/consultations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      return { ok: false, error: json.error ?? "اطلاعات فرم را بررسی کنید." };
+    }
+    return { ok: true };
   } catch {
-    return { ok: false, error: "ذخیرهٔ درخواست انجام نشد. دوباره تلاش کنید." };
+    return { ok: false, error: "ارتباط با سرور برقرار نشد. اینترنت را بررسی کنید." };
   }
-  return { ok: true };
 }

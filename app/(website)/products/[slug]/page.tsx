@@ -6,6 +6,7 @@ import { CheckCircle2 } from "lucide-react";
 import AddToCartPanel from "@/components/product/AddToCartPanel";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductCard from "@/components/shop/ProductCard";
+import FavoriteButton from "@/components/favorites/FavoriteButton";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { categories } from "@/data/categories";
 import { products } from "@/data/products";
@@ -54,6 +55,7 @@ export default async function ProductPage({ params }: Props) {
 
         <div>
           <h1 className="text-3xl font-bold leading-[1.5] text-stone-950">{product.title}</h1>
+          <div className="mt-3"><FavoriteButton productId={product.id} title={product.title} variant="inline" /></div>
 
           <p className="mt-4 text-2xl font-bold text-amber-700">{formatPrice(product.price)}</p>
 
