@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { db } from "@/lib/db";
 import { getIp, rateLimit } from "@/lib/rate-limit";
-import { addConsultation } from "@/lib/store";
 import { validateConsultation } from "@/lib/validators";
 
 export async function POST(req: Request) {
@@ -23,6 +23,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "اطلاعات فرم را بررسی کنید." }, { status: 400 });
   }
 
-  await addConsultation(data);
-  return NextResponse.json({ ok: true });
+  try {
+    // همین شماره در ۱۰ دقیقهٔ اخیر درخواست داده؟ دوباره ثبت نمی‌کنیم
+    const recent = await db.consultation.findFirst({
+      where: { phone: data.phone, createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) } },
+    });
+    if (!recent) await db.consultation.create({ data });
+
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("[consultation]", e);
+    return NextResponse.json({ error: "ثبت درخواست انجام نشد. دوباره تلاش کنید." }, { status: 500 });
+  }
 }

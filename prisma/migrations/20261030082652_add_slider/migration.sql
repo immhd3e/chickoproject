@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE "Slider" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "image" TEXT NOT NULL,
+    "label" TEXT NOT NULL DEFAULT '',
+    "title" TEXT NOT NULL,
+    "sort" INTEGER NOT NULL DEFAULT 0,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);

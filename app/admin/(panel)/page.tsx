@@ -1,15 +1,19 @@
 import Link from "next/link";
 
 import { formatPrice, toFa } from "@/lib/format";
-import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL } from "@/lib/order-status";
-import { listConsultations, listOrders } from "@/lib/store";
+import { db } from "@/lib/db";
+import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL, asStatus } from "@/lib/order-status";
 
 export const instant = false;
 
 const fmt = new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" });
 
 export default async function DashboardPage() {
-  const [orders, consultations] = await Promise.all([listOrders(), listConsultations()]);
+  const [orders, consultations, productCount] = await Promise.all([
+    db.order.findMany({ orderBy: { id: "desc" } }),
+    db.consultation.findMany({ orderBy: { id: "desc" } }),
+    db.product.count(),
+  ]);
 
   const newOrders = orders.filter((o) => o.status === "new").length;
   const newConsults = consultations.filter((c) => c.status === "new").length;
@@ -18,8 +22,8 @@ export default async function DashboardPage() {
   const stats = [
     { label: "سفارش جدید", value: toFa(newOrders), href: "/admin/orders", accent: newOrders > 0 },
     { label: "مشاورهٔ جدید", value: toFa(newConsults), href: "/admin/consultations", accent: newConsults > 0 },
-    { label: "کل سفارش‌ها", value: toFa(orders.length), href: "/admin/orders", accent: false },
     { label: "جمع سفارش‌ها (بدون لغوشده)", value: formatPrice(revenue), href: "/admin/orders", accent: false },
+    { label: "تعداد محصولات", value: toFa(productCount), href: "/admin/products", accent: false },
   ];
 
   return (
@@ -55,10 +59,10 @@ export default async function DashboardPage() {
                 <li key={o.id} className="flex items-center justify-between gap-3 py-3 text-sm">
                   <div>
                     <p className="font-medium text-stone-900">{o.name}</p>
-                    <p className="text-xs text-stone-500">{o.code} | {fmt.format(new Date(o.createdAt))}</p>
+                    <p className="text-xs text-stone-500">{o.code} | {fmt.format(o.createdAt)}</p>
                   </div>
-                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${ORDER_STATUS_COLOR[o.status]}`}>
-                    {ORDER_STATUS_LABEL[o.status]}
+                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${ORDER_STATUS_COLOR[asStatus(o.status)]}`}>
+                    {ORDER_STATUS_LABEL[asStatus(o.status)]}
                   </span>
                 </li>
               ))}

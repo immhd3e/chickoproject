@@ -1,6 +1,6 @@
 import { SUBJECTS } from "@/data/consultation";
+import { db } from "@/lib/db";
 import { toFa } from "@/lib/format";
-import { listConsultations } from "@/lib/store";
 import { markContacted } from "./actions";
 
 export const instant = false;
@@ -8,7 +8,7 @@ export const instant = false;
 const fmt = new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" });
 
 export default async function ConsultationsPage() {
-  const list = await listConsultations();
+  const list = await db.consultation.findMany({ orderBy: { id: "desc" } });
   const newCount = list.filter((c) => c.status === "new").length;
 
   return (
@@ -36,7 +36,7 @@ export default async function ConsultationsPage() {
             <tbody>
               {list.map((c) => (
                 <tr key={c.id} className="border-t border-stone-100 align-top">
-                  <td className="whitespace-nowrap px-4 py-3 text-stone-500">{fmt.format(new Date(c.createdAt))}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-500">{fmt.format(c.createdAt)}</td>
                   <td className="px-4 py-3 font-medium text-stone-900">{c.name}</td>
                   <td className="px-4 py-3">
                     <a href={`tel:${c.phone}`} dir="ltr" className="text-amber-700 hover:underline">{c.phone}</a>

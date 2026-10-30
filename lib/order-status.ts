@@ -17,3 +17,7 @@ export const ORDER_STATUS_COLOR: Record<OrderStatus, string> = {
   delivered: "bg-green-100 text-green-800",
   canceled: "bg-stone-200 text-stone-600",
 };
+
+// وضعیتی که از دیتابیس می‌آید رشته است؛ اگر ناشناخته بود «جدید» حساب می‌شود
+export const asStatus = (s: string): OrderStatus =>
+  (ORDER_STATUSES as readonly string[]).includes(s) ? (s as OrderStatus) : "new";

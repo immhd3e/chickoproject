@@ -1,9 +1,15 @@
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -12,7 +18,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const slides = [
+type Slide = {
+  image: string;
+  label: string;
+  title: string;
+};
+
+const fallbackSlides: Slide[] = [
   {
     image: "/images/home/img1.jpg",
     label: "MDF چیکو",
@@ -35,10 +47,16 @@ const slides = [
   },
 ];
 
-export default function HeroSection() {
+export default function HeroSection({
+  slides = fallbackSlides,
+}: {
+  slides?: Slide[];
+}) {
+  const visibleSlides = slides.length > 0 ? slides : fallbackSlides;
+
   return (
     <section className="relative overflow-hidden bg-stone-950 text-white">
-      {/* ================= BACKGROUND ================= */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0">
         <Image
           src="/images/home/hero.jpg"
@@ -53,7 +71,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-l from-stone-950 via-stone-950/85 to-stone-950/40" />
       </div>
 
-      {/* ================= CONTENT ================= */}
+      {/* CONTENT */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className="
@@ -70,9 +88,7 @@ export default function HeroSection() {
             lg:py-20
           "
         >
-          {/* ================= SLIDER ================= */}
-          {/* در موبایل اول نمایش داده می‌شود */}
-          {/* در دسکتاپ سمت دوم قرار می‌گیرد */}
+          {/* SLIDER */}
           <div className="order-1 w-full min-w-0 lg:order-2">
             <div className="relative w-full">
               <Swiper
@@ -88,11 +104,11 @@ export default function HeroSection() {
                   delay: 4000,
                   disableOnInteraction: false,
                 }}
-                loop
+                loop={visibleSlides.length > 1}
                 className="hero-swiper w-full overflow-hidden rounded-[1.5rem] sm:rounded-[2rem]"
               >
-                {slides.map((slide, index) => (
-                  <SwiperSlide key={index}>
+                {visibleSlides.map((slide, index) => (
+                  <SwiperSlide key={`${slide.image}-${index}`}>
                     <div className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/10 p-2 shadow-2xl backdrop-blur-sm sm:rounded-[2rem] sm:p-3">
                       <div
                         className="
@@ -156,9 +172,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* ================= TEXT ================= */}
-          {/* در موبایل بعد از اسلایدر نمایش داده می‌شود */}
-          {/* در دسکتاپ سمت اول قرار می‌گیرد */}
+          {/* TEXT */}
           <div className="order-2 w-full max-w-2xl lg:order-1">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[11px] text-stone-200 backdrop-blur-sm sm:px-4 sm:py-2 sm:text-xs">
@@ -218,7 +232,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ================= SWIPER STYLES ================= */}
+      {/* SWIPER STYLES */}
       <style jsx global>{`
         .hero-swiper .swiper-pagination {
           bottom: 12px !important;

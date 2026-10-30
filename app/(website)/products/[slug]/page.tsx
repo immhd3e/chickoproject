@@ -3,35 +3,32 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 
+import FavoriteButton from "@/components/favorites/FavoriteButton";
 import AddToCartPanel from "@/components/product/AddToCartPanel";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductCard from "@/components/shop/ProductCard";
-import FavoriteButton from "@/components/favorites/FavoriteButton";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { categories } from "@/data/categories";
-import { products } from "@/data/products";
+import { getProductBySlug, getProducts } from "@/lib/catalog";
 import { formatPrice } from "@/lib/format";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
   return { title: product?.title ?? "محصول", description: product?.description };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
+  const all = await getProducts();
   const category = categories.find((c) => c.slug === product.category);
   const type = category?.items.find((i) => i.slug === product.type);
-  const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  const related = all.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   const specs = [
     { label: "دسته‌بندی", value: category?.title },
@@ -55,10 +52,11 @@ export default async function ProductPage({ params }: Props) {
 
         <div>
           <h1 className="text-3xl font-bold leading-[1.5] text-stone-950">{product.title}</h1>
-          <div className="mt-3"><FavoriteButton productId={product.id} title={product.title} variant="inline" /></div>
+          <div className="mt-3">
+            <FavoriteButton productId={product.id} title={product.title} variant="inline" />
+          </div>
 
           <p className="mt-4 text-2xl font-bold text-amber-700">{formatPrice(product.price)}</p>
-
           <p className="mt-5 leading-8 text-stone-600">{product.description}</p>
 
           <ul className="mt-6 space-y-3">
@@ -82,9 +80,7 @@ export default async function ProductPage({ params }: Props) {
             />
           </div>
 
-          <p className="mt-4 text-xs leading-6 text-stone-500">
-            هزینهٔ ارسال و نصب بعد از تأیید سفارش اعلام می‌شود.
-          </p>
+          <p className="mt-4 text-xs leading-6 text-stone-500">هزینهٔ ارسال و نصب بعد از تأیید سفارش اعلام می‌شود.</p>
 
           <Link
             href="/contact?subject=custom"
@@ -95,7 +91,6 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      {/* مشخصات */}
       <section className="mt-16">
         <h2 className="text-xl font-bold text-stone-950">مشخصات</h2>
         <dl className="mt-5 overflow-hidden rounded-2xl border border-stone-200 bg-white">
@@ -108,7 +103,6 @@ export default async function ProductPage({ params }: Props) {
         </dl>
       </section>
 
-      {/* محصولات مشابه */}
       {related.length > 0 && (
         <section className="mt-16">
           <h2 className="text-xl font-bold text-stone-950">محصولات مشابه</h2>

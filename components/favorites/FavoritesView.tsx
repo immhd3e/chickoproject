@@ -5,10 +5,10 @@ import { Heart } from "lucide-react";
 
 import { useFavorites } from "./FavoritesProvider";
 import ProductCard from "@/components/shop/ProductCard";
-import { products } from "@/data/products";
+import type { Product } from "@/data/products";
 import { toFa } from "@/lib/format";
 
-export default function FavoritesView() {
+export default function FavoritesView({ products }: { products: Product[] }) {
   const { ids, ready } = useFavorites();
 
   if (!ready) return <div className="min-h-[50vh]" />;

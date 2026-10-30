@@ -4,8 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 
 import { categories } from "@/data/categories";
-import { collections } from "@/data/collections";
-import { products } from "@/data/products";
+import { getCollections, getProducts } from "@/lib/catalog";
 import { toFa } from "@/lib/format";
 
 export const metadata: Metadata = { title: "محصولات" };
@@ -16,11 +15,11 @@ type Props = {
 
 export default async function ProductsPage({ searchParams }: Props) {
   const { category, type, q } = await searchParams;
+  const [collections, products] = await Promise.all([getCollections(), getProducts()]);
 
   const currentCat = categories.find((c) => c.slug === category);
   const activeType = currentCat?.items.find((t) => t.slug === type);
 
-  // فیلتر مدل بی‌صدا کار می‌کند (دکمه‌ای برایش نشان داده نمی‌شود)
   const list = collections.filter((col) => {
     if (category && col.category !== category) return false;
 
@@ -44,10 +43,9 @@ export default async function ProductsPage({ searchParams }: Props) {
       <p className="mt-2 max-w-2xl text-sm leading-7 text-stone-500">
         {currentCat
           ? currentCat.description
-          : "مجموعه‌های آماده‌ی MDF چیکو را ببینید و هر کدام را مفصل بررسی کنید."}
+          : "مجموعه‌های آماده‌ی MDF Factory را ببینید و هر کدام را مفصل بررسی کنید."}
       </p>
 
-      {/* فقط دسته‌ها */}
       <div className="mt-6 flex flex-wrap gap-2">
         <Link href="/products" className={chip(!category)} aria-current={!category ? "true" : undefined}>
           همه
@@ -64,7 +62,6 @@ export default async function ProductsPage({ searchParams }: Props) {
         ))}
       </div>
 
-      {/* مجموعه‌ها (بدون قیمت) */}
       {list.length ? (
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((col) => (

@@ -7,25 +7,21 @@ import AddCollectionToCart from "@/components/collection/AddCollectionToCart";
 import PartCard from "@/components/collection/PartCard";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { categories } from "@/data/categories";
-import { collections } from "@/data/collections";
-import { products, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
+import { getCollectionBySlug, getProducts } from "@/lib/catalog";
 import { formatPrice, toFa } from "@/lib/format";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return collections.map((c) => ({ slug: c.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const col = collections.find((c) => c.slug === slug);
+  const col = await getCollectionBySlug(slug);
   return { title: col?.title ?? "مجموعه", description: col?.description };
 }
 
 export default async function CollectionPage({ params }: Props) {
   const { slug } = await params;
-  const col = collections.find((c) => c.slug === slug);
+  const col = await getCollectionBySlug(slug);
 
   if (!col) {
     // اگر اسم یک دسته را مستقیم زدند (مثل /category/wardrobe)، به صفحهٔ محصولات همان دسته می‌رود
@@ -33,6 +29,7 @@ export default async function CollectionPage({ params }: Props) {
     notFound();
   }
 
+  const products = await getProducts();
   const category = categories.find((c) => c.slug === col.category);
   const items = col.itemIds
     .map((id) => products.find((p) => p.id === id))
@@ -41,7 +38,7 @@ export default async function CollectionPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-7xl px-6 pb-16 pt-10 sm:px-10 sm:pt-14 lg:px-16">
-      {/* ۱) عکس کامل و بزرگ (با فاصله از منو و گوشهٔ گرد) */}
+      {/* ۱) عکس کامل و بزرگ */}
       <section className="relative h-[260px] overflow-hidden rounded-3xl bg-stone-950 sm:h-[380px] lg:h-[500px]">
         <Image
           src={col.banner ?? col.image}
@@ -116,7 +113,7 @@ export default async function CollectionPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ۳) همان عکس، تکه‌تکه، هر جزء با قیمت خودش */}
+      {/* ۳) اجزای مجموعه، هر کدام با عکس و قیمت خودش */}
       <section className="mt-20">
         <h2 className="text-2xl font-bold text-stone-950">اجزای این مجموعه</h2>
         <p className="mt-2 text-sm text-stone-500">
@@ -125,7 +122,13 @@ export default async function CollectionPage({ params }: Props) {
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((p) => (
-            <PartCard key={p.id} product={p} image={col.partImages?.[p.id] ?? p.image} wholeImage={col.image} focus={col.focus?.[p.id]} />
+            <PartCard
+              key={p.id}
+              product={p}
+              image={col.partImages?.[p.id] ?? p.image}
+              wholeImage={col.image}
+              focus={col.focus?.[p.id]}
+            />
           ))}
         </div>
       </section>

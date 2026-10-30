@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
+import { db } from "@/lib/db";
 import { validateOrder } from "@/lib/order-api";
 import { getIp, rateLimit } from "@/lib/rate-limit";
-import { addOrder, getProducts, type OrderItem } from "@/lib/store";
 
 export async function POST(req: Request) {
   if (!rateLimit(`order:${getIp(req)}`, 10, 3_600_000)) {
@@ -25,19 +25,39 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "اطلاعات تحویل را بررسی کنید." }, { status: 400 });
   }
 
-  // نام و قیمت از لیست محصولات سرور می‌آید، نه از مرورگر
-  const products = await getProducts();
   const rawItems: { id?: unknown; qty?: unknown }[] = Array.isArray(body.items) ? body.items.slice(0, 50) : [];
-  const items: OrderItem[] = [];
+  const ids = rawItems.map((i) => Number(i.id)).filter((n) => Number.isInteger(n));
 
-  for (const it of rawItems) {
-    const p = products.find((x) => x.id === Number(it.id));
-    const qty = Math.min(20, Math.max(1, Math.floor(Number(it.qty) || 0)));
-    if (p && qty) items.push({ id: p.id, title: p.title, price: p.price, qty });
+  try {
+    // نام و قیمت از دیتابیس می‌آید، نه از مرورگر
+    const rows = await db.product.findMany({ where: { id: { in: ids }, active: true } });
+    const byId = new Map(rows.map((p) => [p.id, p]));
+
+    const items = rawItems.flatMap((it) => {
+      const p = byId.get(Number(it.id));
+      const qty = Math.min(20, Math.max(1, Math.floor(Number(it.qty) || 0)));
+      return p ? [{ productId: p.id, title: p.title, price: p.price, qty }] : [];
+    });
+
+    if (!items.length) return NextResponse.json({ error: "سبد خرید خالی است." }, { status: 400 });
+
+    const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+    const order = await db.order.create({
+      data: {
+        code: `TMP-${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`,
+        ...input,
+        total,
+        items: { create: items },
+      },
+    });
+
+    const code = `MDF-${10000 + order.id}`;
+    await db.order.update({ where: { id: order.id }, data: { code } });
+
+    return NextResponse.json({ ok: true, code });
+  } catch (e) {
+    console.error("[order]", e);
+    return NextResponse.json({ error: "ثبت سفارش انجام نشد. دوباره تلاش کنید." }, { status: 500 });
   }
-
-  if (!items.length) return NextResponse.json({ error: "سبد خرید خالی است." }, { status: 400 });
-
-  const order = await addOrder({ ...input, items });
-  return NextResponse.json({ ok: true, code: order.code });
 }

@@ -7,7 +7,8 @@ const items = [
   { href: "/admin", label: "داشبورد", exact: true },
   { href: "/admin/orders", label: "سفارش‌ها" },
   { href: "/admin/consultations", label: "درخواست‌های مشاوره" },
-  { href: "/admin/products", label: "محصولات", soon: true },
+  { href: "/admin/products", label: "محصولات" },
+{ href: "/admin/sliders", label: "اسلایدر" },
   { href: "/admin/collections", label: "مجموعه‌ها", soon: true },
 ];
 
