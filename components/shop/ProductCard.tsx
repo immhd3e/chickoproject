@@ -3,11 +3,15 @@ import Link from "next/link";
 
 import AddToCart from "./AddToCart";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, toFa } from "@/lib/format";
 import type { Product } from "@/data/products";
 
 export default function ProductCard({ product }: { product: Product }) {
   const href = `/products/${product.slug}`;
+  const discount =
+    product.oldPrice && product.oldPrice > product.price
+      ? Math.round((1 - product.price / product.oldPrice) * 100)
+      : 0;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -21,6 +25,11 @@ export default function ProductCard({ product }: { product: Product }) {
             className="object-cover transition duration-700 group-hover:scale-105"
           />
         </Link>
+        {discount > 0 && (
+          <span className="absolute right-3 top-3 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white">
+            {toFa(discount)}٪ تخفیف
+          </span>
+        )}
         <FavoriteButton productId={product.id} title={product.title} />
       </div>
 
@@ -29,9 +38,16 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.title}
         </Link>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-stone-500">{product.description}</p>
+        <p className="mt-2 line-clamp-2 text-sm leading-6 text-stone-500">
+          {product.shortDescription ?? product.description}
+        </p>
 
-        <p className="mt-3 font-bold text-stone-950">{formatPrice(product.price)}</p>
+        <div className="mt-3">
+          <p className="font-bold text-stone-950">{formatPrice(product.price)}</p>
+          {discount > 0 && product.oldPrice && (
+            <p className="text-xs text-stone-400 line-through">{formatPrice(product.oldPrice)}</p>
+          )}
+        </div>
 
         <div className="mt-auto pt-4">
           <AddToCart

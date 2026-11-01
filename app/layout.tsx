@@ -6,6 +6,9 @@ import SiteChrome from "@/components/layout/SiteChrome";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
+import { getCategories } from "@/lib/catalog";
+
+export const instant = false;
 
 const font = Vazirmatn({
   subsets: ["arabic", "latin"],
@@ -17,16 +20,18 @@ export const metadata: Metadata = {
   description: "طراحی، تولید و اجرای محصولات MDF و دکوراسیون داخلی",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const categories = await getCategories();
+
   return (
     <html lang="fa" dir="rtl">
       <body className={`${font.className} bg-stone-50 text-stone-900 antialiased`}>
         <AuthProvider>
           <CartProvider>
             <FavoritesProvider>
-              <SiteChrome>{children}</SiteChrome>
+              <SiteChrome categories={categories}>{children}</SiteChrome>
             </FavoritesProvider>
           </CartProvider>
         </AuthProvider>

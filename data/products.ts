@@ -9,6 +9,12 @@ export type Product = {
   type: string; // slug مدل
   description: string;
   features: string[];
+  code?: string;
+  oldPrice?: number;
+  shortDescription?: string;
+  specs?: { label: string; value: string }[];
+  colors?: { name: string; hex: string }[];
+  featured?: boolean;
 };
 
 export const products: Product[] = [

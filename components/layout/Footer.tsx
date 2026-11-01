@@ -1,199 +1,60 @@
 import Link from "next/link";
-import CurrentYear from "./CurrentYear";
-import { MapPin, Phone, Mail, ArrowLeft } from "lucide-react";
+import { Phone, MapPin, Mail } from "lucide-react";
 
-const productLinks = [
-  {
-    title: "کمد و کمد دیواری",
-    href: "/products?category=wardrobes",
-  },
-  {
-    title: "اتاق کودک",
-    href: "/products?category=kids-room",
-  },
-  {
-    title: "سرویس خواب",
-    href: "/products?category=bedroom",
-  },
-  {
-    title: "میز و کتابخانه",
-    href: "/products?category=tables-bookcases",
-  },
-];
+import type { Category } from "@/data/categories";
+import CurrentYear from "./CurrentYear";
 
 const quickLinks = [
-  {
-    title: "درباره ما",
-    href: "/about",
-  },
-  {
-    title: "نمونه‌کارها",
-    href: "/portfolio",
-  },
-  {
-    title: "خدمات",
-    href: "/services",
-  },
-  {
-    title: "مجله",
-    href: "/blog",
-  },
-  {
-    title: "تماس با ما",
-    href: "/contact",
-  },
+  { label: "محصولات", href: "/products" },
+  { label: "نمونه‌کارها", href: "/portfolio" },
+  { label: "خدمات", href: "/services" },
+  { label: "درباره ما", href: "/about" },
+  { label: "تماس با ما", href: "/contact" },
 ];
 
-export default function Footer() {
-  const newLocal =
-    "mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between";
+export default function Footer({ categories }: { categories: Category[] }) {
+  const link = "transition hover:text-amber-500";
+
   return (
-    <footer className="bg-stone-950 text-white">
-      {/* Main Footer */}
-      <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
-          <div>
-            <Link href="/" className="inline-flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-stone-950">
-                M
-              </div>
-
-              <div>
-                <div className="text-xl font-bold">
-                  MDF
-                  <span className="text-amber-500">چیکو</span>
-                </div>
-
-                <p className="mt-0.5 text-[9px] tracking-[0.25em] text-stone-500">
-                  WOOD & INTERIOR
-                </p>
-              </div>
-            </Link>
-
-            <p className="mt-6 max-w-xs text-sm leading-7 text-stone-400">
-              طراحی، تولید و اجرای محصولات MDF و دکوراسیون داخلی با تمرکز بر
-              کیفیت، طراحی مدرن و اجرای دقیق.
-            </p>
+    <footer className="mt-24 bg-stone-950 text-stone-300">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-stone-950">M</div>
+            <div className="text-xl font-bold text-white">MDF<span className="text-amber-500">Factory</span></div>
           </div>
+          <p className="mt-4 text-sm leading-7 text-stone-400">طراحی، تولید و اجرای کمد، سرویس نوزاد و دکوراسیون داخلی با MDF، مستقیم از کارخانه.</p>
+        </div>
 
-          {/* Products */}
-          <div>
-            <h3 className="font-bold">محصولات</h3>
+        <div>
+          <h3 className="mb-4 text-sm font-bold text-white">محصولات</h3>
+          <ul className="space-y-3 text-sm">
+            {categories.map((c) => (
+              <li key={c.slug}><Link href={`/products?category=${c.slug}`} className={link}>{c.title}</Link></li>
+            ))}
+          </ul>
+        </div>
 
-            <ul className="mt-5 space-y-3">
-              {productLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-stone-400 transition hover:text-amber-500"
-                  >
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div>
+          <h3 className="mb-4 text-sm font-bold text-white">دسترسی سریع</h3>
+          <ul className="space-y-3 text-sm">
+            {quickLinks.map((l) => (
+              <li key={l.href}><Link href={l.href} className={link}>{l.label}</Link></li>
+            ))}
+          </ul>
+        </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-bold">دسترسی سریع</h3>
-
-            <ul className="mt-5 space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-stone-400 transition hover:text-amber-500"
-                  >
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="font-bold">ارتباط با ما</h3>
-
-            <div className="mt-5 space-y-4">
-              {/* Phone */}
-              <div className="flex items-start gap-3">
-                <Phone size={18} className="mt-0.5 shrink-0 text-amber-500" />
-
-                <div>
-                  <p className="text-xs text-stone-500">تلفن</p>
-
-                  <a
-                    href="tel:02112345678"
-                    className="mt-1 block text-sm text-stone-300 transition hover:text-amber-500"
-                  >
-                    09126518450
-                  </a>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-3">
-                <Mail size={18} className="mt-0.5 shrink-0 text-amber-500" />
-
-                <div>
-                  <p className="text-xs text-stone-500">ایمیل</p>
-
-                  <a
-                    href="mailto:info@mdffactory.ir"
-                    className="mt-1 block text-sm text-stone-300 transition hover:text-amber-500"
-                  >
-                    info@mdffactory.ir
-                  </a>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="flex items-start gap-3">
-                <MapPin size={18} className="mt-0.5 shrink-0 text-amber-500" />
-
-                <div>
-                  <p className="text-xs text-stone-500">آدرس</p>
-
-                  <p className="mt-1 text-sm leading-6 text-stone-300">
-                    قم ابتدای اتوبان گرمسار شهرک صنعتی ثامن الاِمه بلوار امام
-                    رضا کوچه28 سمت راست کارخانه ششم
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber-500 transition hover:text-amber-400"
-            >
-              درخواست مشاوره
-              <ArrowLeft size={16} />
-            </Link>
-          </div>
+        <div>
+          <h3 className="mb-4 text-sm font-bold text-white">تماس با ما</h3>
+          <ul className="space-y-4 text-sm">
+            <li className="flex items-start gap-3"><MapPin size={18} className="mt-1 shrink-0 text-amber-500" /><span>آدرس کارخانه را اینجا بنویسید</span></li>
+            <li className="flex items-center gap-3"><Phone size={18} className="shrink-0 text-amber-500" /><a href="tel:02112345678" className={link}>۰۲۱-۱۲۳۴۵۶۷۸</a></li>
+            <li className="flex items-center gap-3"><Mail size={18} className="shrink-0 text-amber-500" /><a href="mailto:info@example.com" className={link}>info@example.com</a></li>
+          </ul>
         </div>
       </div>
-
-      {/* Bottom */}
-      <div className="border-t border-white/10">
-        <div className={newLocal}>
-          <p>
-            © <CurrentYear /> چیکو ام دی اف. تمامی حقوق محفوظ است.
-          </p>
-
-          <div className="flex gap-5">
-            <Link href="/" className="transition hover:text-stone-300">
-              حریم خصوصی
-            </Link>
-
-            <Link href="/" className="transition hover:text-stone-300">
-              قوانین و مقررات
-            </Link>
-          </div>
-        </div>
+      <div className="border-t border-stone-800">
+        <div className="mx-auto max-w-7xl px-6 py-5 text-xs text-stone-500">© <CurrentYear /> MDF Factory. تمامی حقوق محفوظ است.</div>
       </div>
     </footer>
   );

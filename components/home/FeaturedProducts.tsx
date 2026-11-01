@@ -1,23 +1,15 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import ProductCard from "@/components/shop/ProductCard";
-import { getProducts } from "@/lib/catalog";
+import { getFeaturedProducts } from "@/lib/catalog";
 
-async function Grid() {
-  const featured = (await getProducts()).slice(0, 4);
+export default async function FeaturedProducts() {
+  const featured = await getFeaturedProducts(8);
 
-  return (
-    <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {featured.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  );
-}
+  // تا وقتی از پنل محصولی «پیشنهادی» نشده، این بخش نشان داده نمی‌شود
+  if (!featured.length) return null;
 
-export default function FeaturedProducts() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -30,18 +22,17 @@ export default function FeaturedProducts() {
             </p>
           </div>
 
-          <Link
-            href="/products"
-            className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-stone-800 transition hover:text-amber-700"
-          >
+          <Link href="/products" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-stone-800 transition hover:text-amber-700">
             مشاهده همه محصولات
             <ArrowLeft size={17} />
           </Link>
         </div>
 
-        <Suspense fallback={<div className="mt-10 h-72" />}>
-          <Grid />
-        </Suspense>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {featured.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </section>
   );

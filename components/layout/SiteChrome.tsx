@@ -4,10 +4,11 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
 import MiniCart from "@/components/cart/MiniCart";
+import type { Category } from "@/data/categories";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-export default function SiteChrome({ children }: { children: ReactNode }) {
+export default function SiteChrome({ categories, children }: { categories: Category[]; children: ReactNode }) {
   const pathname = usePathname();
 
   // پنل مدیریت چیدمان خودش را دارد
@@ -15,9 +16,9 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <Navbar />
+      <Navbar categories={categories} />
       <main>{children}</main>
-      <Footer />
+      <Footer categories={categories} />
       <MiniCart />
     </>
   );

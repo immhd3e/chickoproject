@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft } from "lucide-react";
 
-import { categories } from "@/data/categories";
-import { getCollections, getProducts } from "@/lib/catalog";
+import ProductCard from "@/components/shop/ProductCard";
+import { getCategories, getProducts } from "@/lib/catalog";
 import { toFa } from "@/lib/format";
 
+export const instant = false;
 export const metadata: Metadata = { title: "محصولات" };
 
 type Props = {
@@ -15,18 +14,15 @@ type Props = {
 
 export default async function ProductsPage({ searchParams }: Props) {
   const { category, type, q } = await searchParams;
-  const [collections, products] = await Promise.all([getCollections(), getProducts()]);
+  const [categories, products] = await Promise.all([getCategories(), getProducts()]);
 
   const currentCat = categories.find((c) => c.slug === category);
   const activeType = currentCat?.items.find((t) => t.slug === type);
 
-  const list = collections.filter((col) => {
-    if (category && col.category !== category) return false;
-
-    const items = products.filter((p) => col.itemIds.includes(p.id));
-    if (activeType && !items.some((p) => p.type === activeType.slug)) return false;
-    if (q && !(col.title.includes(q) || items.some((p) => p.title.includes(q)))) return false;
-
+  const list = products.filter((p) => {
+    if (category && p.category !== category) return false;
+    if (type && p.type !== type) return false;
+    if (q && !p.title.includes(q)) return false;
     return true;
   });
 
@@ -39,62 +35,51 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">
-      <h1 className="text-3xl font-bold text-stone-900">{currentCat ? currentCat.title : "همهٔ محصولات"}</h1>
-      <p className="mt-2 max-w-2xl text-sm leading-7 text-stone-500">
-        {currentCat
-          ? currentCat.description
-          : "مجموعه‌های آماده‌ی MDF Factory را ببینید و هر کدام را مفصل بررسی کنید."}
-      </p>
+      <h1 className="text-3xl font-bold text-stone-900">
+        {activeType ? activeType.title : currentCat ? currentCat.title : "همهٔ محصولات"}
+      </h1>
+      {currentCat && !activeType && currentCat.description && (
+        <p className="mt-2 max-w-2xl text-sm leading-7 text-stone-500">{currentCat.description}</p>
+      )}
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <Link href="/products" className={chip(!category)} aria-current={!category ? "true" : undefined}>
+        <Link href="/products" className={chip(!category)}>
           همه
         </Link>
         {categories.map((c) => (
-          <Link
-            key={c.slug}
-            href={`/products?category=${c.slug}`}
-            className={chip(category === c.slug)}
-            aria-current={category === c.slug ? "true" : undefined}
-          >
+          <Link key={c.slug} href={`/products?category=${c.slug}`} className={chip(category === c.slug)}>
             {c.title}
           </Link>
         ))}
       </div>
 
-      {list.length ? (
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((col) => (
+      {currentCat && currentCat.items.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link href={`/products?category=${currentCat.slug}`} className={chip(!type)}>
+            همهٔ مدل‌ها
+          </Link>
+          {currentCat.items.map((t) => (
             <Link
-              key={col.slug}
-              href={`/category/${col.slug}`}
-              className="group overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+              key={t.slug}
+              href={`/products?category=${currentCat.slug}&type=${t.slug}`}
+              className={chip(type === t.slug)}
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
-                <Image
-                  src={col.image}
-                  alt={col.title}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                <h2 className="absolute bottom-4 left-4 right-4 text-lg font-bold text-white">{col.title}</h2>
-              </div>
-
-              <div className="p-5">
-                <p className="line-clamp-2 text-sm leading-6 text-stone-500">{col.description}</p>
-
-                <div className="mt-4 flex items-center justify-between border-t border-stone-100 pt-4 text-sm font-semibold text-stone-800">
-                  <span>{toFa(col.itemIds.length)} محصول در این مجموعه</span>
-                  <ArrowLeft size={17} className="transition-transform duration-300 group-hover:-translate-x-1" />
-                </div>
-              </div>
+              {t.title}
             </Link>
           ))}
         </div>
+      )}
+
+      <p className="mt-6 text-sm text-stone-500">{toFa(list.length)} محصول</p>
+
+      {list.length ? (
+        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {list.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
       ) : (
-        <p className="mt-16 text-center text-stone-500">هنوز مجموعه‌ای برای این انتخاب ثبت نشده است.</p>
+        <p className="mt-16 text-center text-stone-500">محصولی برای این انتخاب ثبت نشده است.</p>
       )}
     </section>
   );
